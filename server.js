@@ -34,6 +34,17 @@ app.get('/todos/search', (req, res) => {
 app.get('/todos/create', function(req, res){
     res.render('create')
 });
+app.get('/todos/:id', function(req, res){
+    var id = parseInt(req.params.id);
+    var todo = db.get('todos').find({id: id}).value();
+    db.get('todos').remove(todo).write()
+    res.render('index', {
+      todos:  db.get('todos').value()
+    });
+    res.redirect('/todos');
+});
+
+
 app.post('/todos/create', function(req, res){
     db.get('todos').push(req.body).write();
     res.redirect('/todos')

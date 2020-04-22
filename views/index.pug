@@ -5,4 +5,6 @@ form(action='/todos/search', method='GET')
   button Search
 ul
   each todo in todos
-    li=todo.action
+    li
+      span=todo.action
+      a(href='/todos/' + todo.id) Xóa
