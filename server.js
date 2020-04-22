@@ -1,14 +1,13 @@
-// server.js
-// where your node app starts
-
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser')
 const pug =  require('pug')
+
 app.set('view engine', 'pug')
 app.set('views', './views')
-// https://expressjs.com/en/starter/basic-routing.html
+app.use(bodyParser.json()) 
+app.use(bodyParser.urlencoded({ extended: true })) 
+
 var todos = [
   {action: 'Đi chợ'},
   {action: 'Nấu cơm'},
@@ -32,7 +31,13 @@ app.get('/todos/search', (req, res) => {
     todos: matchedTodos
   });
 });
-// listen for requests :)
+app.get('/todos/create', function(req, res){
+    res.render('create')
+});
+app.post('/todos/create', function(req, res){
+    todos.push(req.body);
+    res.redirect('/todos')
+})
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port " + process.env.PORT);
 });
