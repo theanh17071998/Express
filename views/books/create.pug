@@ -1,0 +1,12 @@
+h1 Create new book
+form(action="/books/create" method="POST")
+    label Title
+    span &nbsp
+    input(type="text", name = "title") 
+    br
+    label Description
+    span &nbsp
+    input(type="text", name = "description")
+    br
+    br
+    button create

@@ -1,43 +1,26 @@
-const express = require("express");
-const app = express();
+const express = require('express');
 const bodyParser = require('body-parser')
-const pug =  require('pug')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
 
-const adapter = new FileSync('db.json')
-const db = low(adapter)
+const userRoute = require('./routes/users.route')
+const bookRoute = require('./routes/books.route')
+const  transactionRoute = require('./routes/transactions.route')
 
-app.set('view engine', 'pug')
-app.set('views', './views')
-app.use(bodyParser.json()) 
+var port = 3000;
+
+const app = express();
+app.set('views', './views');
+app.set('view engine', 'pug');
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) 
 
-db.defaults({todos:[]}).write();
-app.get("/", (request, response) => {
-  response.send("I love CodersX");
-});
-app.get('/todos', (req, res) => {
-  res.render('index', {
-    todos: db.get('todos').value()
-  })
-});
-app.get('/todos/search', (req, res) => {
-  var q = req.query.q;
-  var matchedTodos= db.get('todos').value().filter(function(todo){
-    return todo.action.toLowerCase().indexOf(q.toLowerCase()) !== -1
-  });
-  res.render('index', {
-    todos: matchedTodos
-  });
-});
-app.get('/todos/create', function(req, res){
-    res.render('create')
-});
-app.post('/todos/create', function(req, res){
-    db.get('todos').push(req.body).write();
-    res.redirect('/todos')
-})
-app.listen(process.env.PORT, () => {
-  console.log("Server listening on port " + process.env.PORT);
+app.get('/', function (req, res) { 
+    res.send("<h1>Hello coder.Tokyo</h1>");
+ })
+
+app.use('/users', userRoute);
+app.use('/books', bookRoute);
+app.use('/transactions', transactionRoute)
+
+app.listen(port, function(){
+    console.log('server running with port' + port);
 });
