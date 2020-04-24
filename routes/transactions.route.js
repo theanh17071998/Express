@@ -17,7 +17,15 @@ route.get('/create', function (req, res) {
     });
    });
 route.post('/create', function (req, res) {
-   console.log(req.body)
+  var name = req.body.name;
+  var user = db.get('users').find({name: name}).value();
+  var title = req.body.title;
+  var book = db.get('books').find({title: title}).value();
+  req.body.id = shortid.generate();
+  req.body.userId = user.id;
+  req.body.bookId = book.id;
+  db.get('transactions').push(req.body).write();
+  res.redirect('/transactions')
 });
 
 module.exports = route;

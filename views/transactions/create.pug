@@ -1,0 +1,14 @@
+h1 Tạo transaction mới
+form(action="/transactions/create", method="POST")
+    label(for='user') Chọn user: 
+    select#user.users(name='name')
+        each user in users
+            option(value=`${user.name}`)
+                span=user.name
+
+    label(for='book') Chọn book: 
+    select#book(name='title')
+        each book in books
+            option(value=`${book.title}`)
+                span=book.title
+    button Create
