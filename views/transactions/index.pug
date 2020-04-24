@@ -3,8 +3,19 @@ h1 Danh sach lien ket
 ul 
     each transaction in transactions
         li
-            lable User: 
+            lable User ID: 
+            span=transaction.userId
+            spane &nbsp
+            lable User Name: 
             span=transaction.name
             br
-            lable Book 
+            lable Book ID: 
+            span=transaction.bookId
+            spane &nbsp
+            lable Book Title: 
             span=transaction.title
+            br
+            lable isComplete: 
+            span=transaction.iscomplete
+            span &nbsp
+            a(href=`/transactions/${transaction.id}/complete`) Complete
