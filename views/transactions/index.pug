@@ -1,21 +1,42 @@
-a(href='/transactions/create') New
-h1 Danh sach lien ket
-ul 
-    each transaction in transactions
-        li
-            lable User ID: 
-            span=transaction.userId
-            spane &nbsp
-            lable User Name: 
-            span=transaction.name
-            br
-            lable Book ID: 
-            span=transaction.bookId
-            spane &nbsp
-            lable Book Title: 
-            span=transaction.title
-            br
-            lable isComplete: 
-            span=transaction.iscomplete
-            span &nbsp
-            a(href=`/transactions/${transaction.id}/complete`) Complete
+extends ../layouts/common.pug
+block content
+    div(class="d-flex")
+        h1 Danh sach lien ket
+        a(href='/transactions/create', class="btn btn-primary ml-2 mt-2") New
+
+    table(style='width:90%' class=' ml-4 table table-bordered')
+            tr
+              th User ID
+              th User Name
+              th Book ID
+              th Book Title
+              th isComplete
+              th Change complete
+            each transaction in transactions
+                tr
+                    td=transaction.userId
+                    td=transaction.name
+                    td=transaction.bookId
+                    td=transaction.title
+                    td=transaction.iscomplete
+                    td
+                        a(href=`/transactions/${transaction.id}/complete`) Complete
+    //- ul 
+    //-     each transaction in transactions
+    //-         li
+    //-             lable User ID: 
+    //-             span=transaction.userId
+    //-             spane &nbsp
+    //-             lable User Name: 
+    //-             span=transaction.name
+    //-             br
+    //-             lable Book ID: 
+    //-             span=transaction.bookId
+    //-             spane &nbsp
+    //-             lable Book Title: 
+    //-             span=transaction.title
+    //-             br
+    //-             lable isComplete: 
+    //-             span=transaction.iscomplete
+    //-             span &nbsp
+    //-             a(href=`/transactions/${transaction.id}/complete`) Complete
