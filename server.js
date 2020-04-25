@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 const userRoute = require('./routes/users.route')
 const bookRoute = require('./routes/books.route')
-const  transactionRoute = require('./routes/transactions.route')
+const transactionRoute = require('./routes/transactions.route')
 
 var port = 3000;
 
@@ -11,13 +12,13 @@ const app = express();
 app.set('views', './views');
 app.set('view engine', 'pug');
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) 
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser()) 
 app.use(express.static('public'))
 
 app.get('/', function (req, res) { 
     res.send("<h1>Hello coder.Tokyo</h1>");
  })
-
 app.use('/users', userRoute);
 app.use('/books', bookRoute);
 app.use('/transactions', transactionRoute)
