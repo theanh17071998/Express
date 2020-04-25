@@ -1,9 +1,10 @@
 extends ../layouts/common.pug
 block content   
-    h1 Tạo user mới
+    h1 New user
     form(action="/users/create", method="POST")
-        label Name
-        input(type="text", name='name', class="form-control ml-4")
-        label Phone
-        input(type="text", name='phone', class="form-control ml-4")
+        .form-group
+            label Name
+            input(type="text", name='name', class="form-control ml-4")
+            label Phone
+            input(type="text", name='phone', class="form-control ml-4")
         button(class="btn btn-primary ml-4 mt-3") Create

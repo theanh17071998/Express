@@ -26,5 +26,20 @@ module.exports.postCreate = function (req, res) {
     res.redirect('/transactions')
   }
  module.exports.complete = (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
+    const transaction = db.get('transactions').find({id: id}).value();
+    if(!transaction){
+        res.render('transactions/index', {
+            error: 'Id transaction not exist',
+            transactions: db.get("transactions").value()
+        })
+        return;
+    }
+    if(transaction.iscomplete === true){
+        db.get('transactions').find(transaction).assign({iscomplete: false}).write()
+    }else {
+        db.get('transactions').find(transaction).assign({iscomplete: true}).write()
+    }
+   
+    res.redirect('/transactions')
  }

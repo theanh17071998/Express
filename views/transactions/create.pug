@@ -1,6 +1,6 @@
 extends ../layouts/common.pug
 block content
-    h1 Tạo transaction mới
+    h1 New transaction
     form(action="/transactions/create", method="POST")
         label(for='user') Chọn user: 
         select#user.users(name='name',  class="form-control ml-4 mr-5")
