@@ -11,8 +11,6 @@ module.exports.postLogin =  (req, res, next) => {
    const password = req.body.password;
    const user = db.get('users').find({email: email}).value()
    let count = user.wrongLoginCount;
-   console.log(count)
-
    if(count >= 3){
     return res.render('auth/login', {
         errors: [
@@ -42,6 +40,8 @@ module.exports.postLogin =  (req, res, next) => {
     });
    } 
     
-   res.cookie('userId', user.id)
+   res.cookie('userId', user.id, {
+       signed: true
+   })
    res.redirect('/users')
 }

@@ -16,7 +16,7 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cookieParser()) 
+app.use(cookieParser('ahfbfkshufh2938hf')) 
 app.use(express.static('public'))
 
 app.get('/', function (req, res) { 
