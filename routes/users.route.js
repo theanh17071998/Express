@@ -1,45 +1,27 @@
 const express = require('express');
-const shortid = require('shortid');
 
-const db = require('../db')
+const controller = require('../controllers/users.controller')
+const validate = require('../validate/user.validate')
+const multer = require('multer')
+const upload = multer({dest: './public/uploads/'})
 
-const route = express.Router();
-route.get('/', (req, res) => {
-    res.render('users/index', {
-        users: db.get('users').value()
-    })
-})
-route.get('/create', (req, res) => {
-    res.render('users/create')
-})
-route.post('/create', (req, res) => {
-    req.body.id = shortid.generate();
-    db.get('users').push(req.body).write();
-    res.redirect('/users')
-})
-route.get('/delete/:id', (req, res) => {
-    var id = req.params.id;
-    var user = db.get('users').find({id: id}).value();
-    db.get('users').remove(user).write();
-    res.redirect('/users')
-})
-route.post('/update/:id', (req,res) => {
-    var id = req.params.id;
-    var user = db.get('users').find({id: id}).value();
-    db.get('users').find(user).assign({name: req.body.name, phone: req.body.phone }).write();
-    res.redirect('/users')
-})
-route.get('/update/:id', (req, res) => {
-    var id = req.params.id;
-    var user = db.get('users').find({id: id}).value();
-    // db.get('users').find(user).assign({name: 'Nguyen Van A'}).write();
-    var userEdit = {};
-    userEdit.name = user.name
-    userEdit.phone = user.phone
-    res.render('users/update', {
-        user: userEdit
-    })
-})
+const router = express.Router();
 
+// đếm số req.cookies gửi lên server đối với chỉ /users/...
+// router.get('/', cookie.count, controller.index)
+// router.get('/create', cookie.count, controller.create )
+// router.post('/create', cookie.count, validate.postCreate, controller.postCreate)
+// router.get('/delete/:id', cookie.count, controller.delete )
+// router.post('/update/:id', cookie.count, controller.postUpdate)
+// router.get('/update/:id', cookie.count, controller.update)
+router.get('/', controller.index)
+router.get('/create', controller.create )
+router.post('/create', validate.postCreate, controller.postCreate);
+router.get('/delete/:id', controller.delete )
+router.post('/update/:id', controller.postUpdate)
+router.get('/update/:id', controller.update)
+router.get('/profile/:id', controller.updateProfile)
+router.get('/profile/avatar/:id', controller.updateAvatar)
+router.post('/profile/avatar/:id', upload.single('avatar'), controller.postUpdateAvatar)
 
-module.exports = route;
+module.exports = router;

@@ -1,0 +1,16 @@
+extends ../layouts/common.pug
+block content
+    h1 New transaction
+    form(action="/transactions/create", method="POST")
+        label(for='user') Chọn user: 
+        select#user.users(name='name',  class="form-control ml-4 mr-5")
+            each user in users
+                option(value=`${user.name}`)
+                    span=user.name
+
+        label(for='book') Chọn book: 
+        select#book(name='title',  class="form-control ml-4 mr-5")
+            each book in books
+                option(value=`${book.title}`)
+                    span=book.title
+        button(class="btn btn-primary ml-4 mt-4") Create
