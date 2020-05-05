@@ -4,7 +4,6 @@ const cloudinary = require('cloudinary').v2;
 
 const bcrypt = require('bcrypt')
 
-const db = require('../db')
 const User = require('../models/user.model')
 
 module.exports.index = async (req, res) => {
