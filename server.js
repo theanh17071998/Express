@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+
 
 const userRoute = require('./routes/users.route')
 const bookRoute = require('./routes/books.route')
@@ -17,7 +17,7 @@ const authMiddleware = require('./middlewares/auth.middleware')
 const authorMiddleware = require('./middlewares/author.middleware')
 const sessionMiddleware = require('./middlewares/session.middleware')
 
-var port = 3000;
+var port = process.env.PORT || 3000;
 
 const app = express();
 app.set('views', './views');
@@ -33,10 +33,15 @@ app.get('/', function (req, res ) {
  })
 app.use('/users', authMiddleware.requireAuth,authorMiddleware.authoring, userRoute);
 app.use('/books', authMiddleware.notRequireAuth, bookRoute);
-app.use('/transactions', authMiddleware.requireAuth, authorMiddleware.authoring,transactionRoute)
+app.use('/transactions', authMiddleware.requireAuth, transactionRoute)
 app.use('/auth', authRoute)
-app.use('/cart', cartRoute)
+app.use('/cart', authMiddleware.requireAuth,cartRoute)
 
 app.listen(port, function(){
     console.log('server running with port' + port);
+    mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(function(){
+        console.log('conected')
+    }).catch(function(error){
+        console.log(`error: ${error}`)
+    })
 });

@@ -60,7 +60,7 @@ module.exports.postLogin =  async (req, res, next) => {
        res.cookie('userId', user._id, {
            signed: true
        })
-       res.redirect('/users')
+       res.redirect('/transactions')
    }
    
 
@@ -77,6 +77,7 @@ module.exports.postSignUp = async (req, res, next) => {
     req.body.wrongLoginCount =  0;
     var salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
+    req.body.cart = {length: 0};
     await User.create(req.body)
     res.redirect('/auth/login')
 }
